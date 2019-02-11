@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CSRFProtect
-from redis import StrictRedis
-from config import Config
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from newsweb import app, db
 
-app = Flask(__name__)  # 初始化app
+manager = Manager(app)  # 使用Manager进行管理启动app
 
-app.config.from_object(Config)  # 加载配置项
-
-db = SQLAlchemy(app)  # 实例化数据库对象
-
-redis_store = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)  # 实例化redis对象
-
-CSRFProtect(app)  # 开启csrf防护
+Migrate(app, db)  # 创建迁移对象
+manager.add_command('db', MigrateCommand)  # 把db命令绑定到manager上
 
 
 @app.route('/')
@@ -22,4 +15,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    manager.run()
