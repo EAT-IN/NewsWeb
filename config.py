@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import redis
+import logging
 
 
 class Config(object):
@@ -28,18 +29,21 @@ class DevelopmentConfig(Config):
     """开发环境下的配置"""
     DEBUG = 1
     ENV = "development"
+    LOG_LEVEL = logging.DEBUG
 
 
 class ProductionConfig(Config):
     """生产环境下的配置"""
     DEBUG = 0
     ENV = "Production"
+    LOG_LEVEL = logging.WARNING
 
 
 class TestConfig(Config):
     """单元测试下的配置"""
     DEBUG = 1
     ENV = "development"
+    LOG_LEVEL = logging.DEBUG
 
 
 config = {

@@ -3,6 +3,7 @@ from flask_script import Manager
 from flask import jsonify, session
 from flask_migrate import Migrate, MigrateCommand
 from newsweb import create_app, db
+import logging
 
 app = create_app("development")  # 在创建应用的时候指定配置类
 
@@ -15,6 +16,7 @@ manager.add_command('db', MigrateCommand)  # 把db命令绑定到manager上
 @app.route('/')
 def index():
     session['user_id'] = '18'
+    logging.debug("测试调试")
     return jsonify({"name": "ZB", "age": 23})
 
 
